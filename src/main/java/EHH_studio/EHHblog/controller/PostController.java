@@ -13,13 +13,22 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("")
-    public String createPost(@RequestParam String title, String content) {
+    public Post createPost(@RequestBody String title, String content) {
         Post post = new Post();
         post.setTitle(title);
         post.setContent(content);
 
-        Long postId = postService.savePost(post);
-        return postId + "번 게시글 생성 완료!";
+        postService.savePost(post);
+        return post;
+    }
+
+    @PostMapping("")
+    public Post createPost(@RequestBody Post post) {
+        post.setTitle(post.getTitle());
+        post.setContent(post.getContent());
+
+        postService.savePost(post);
+        return post;
     }
 
     @PutMapping("")

@@ -11,7 +11,11 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+
     private int age;
+
+    @Column(nullable = false)
     private String email;
 }

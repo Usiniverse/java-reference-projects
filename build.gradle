@@ -28,6 +28,11 @@ dependencies {
 	// gradle 버전이 달라져서 lombok dependency 추가 방법이 달라져서 하단 내용 추가
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 }
 
 compileJava {

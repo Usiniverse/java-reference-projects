@@ -7,26 +7,32 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/entitymanager-example/user")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
     @PostMapping("")
-    public String create(@RequestParam String name, int age) {
-        User user = new User();
-        user.setName(name);
-        user.setAge(age);
+    public User create(@RequestBody User user) {
+        user.setName(user.getName());
+        user.setAge(user.getAge());
 
-        Long userId = userService.save(user);
-        return userId + "번 회원 등록 완료!";
+        userService.save(user);
+        return user;
     }
 
     @PutMapping("")
-    public String update(@RequestParam Long id, String name, int age) {
-        Long userId = userService.update(id, name, age);
-        return userId + "번 회원 수정 완료!";
+    public User update(
+            @RequestParam Long id,
+            @RequestBody User user
+    ) {
+        String name = user.getName();
+        int age = user.getAge();
+
+        userService.update(id, name, age);
+        return userService.findById(id);
     }
+
 
     @DeleteMapping("")
     public String delete(@RequestParam Long id) {

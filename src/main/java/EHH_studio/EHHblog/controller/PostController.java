@@ -7,20 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/entitymanager-example/post")
+@RequestMapping("/post")
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
-
-    @PostMapping("")
-    public Post createPost(@RequestBody String title, String content) {
-        Post post = new Post();
-        post.setTitle(title);
-        post.setContent(content);
-
-        postService.savePost(post);
-        return post;
-    }
 
     @PostMapping("")
     public Post createPost(@RequestBody Post post) {
@@ -32,9 +22,14 @@ public class PostController {
     }
 
     @PutMapping("")
-    public String updatePost(@RequestParam Long id, String title, String content) {
-        Long postId = postService.updatePost(id, title, content);
-        return postId + "번 게시글 수정 완료!";
+    public Post updatePost(
+            @RequestParam Long id,
+            @RequestBody Post post
+    ) {
+        String title = post.getTitle();
+        String content = post.getContent();
+        postService.updatePost(id, title, content);
+        return postService.findByPostId(id);
     }
 
     @DeleteMapping("")

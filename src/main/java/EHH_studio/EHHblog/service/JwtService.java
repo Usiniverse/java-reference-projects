@@ -12,7 +12,7 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.secretKey}")
     private String secret; // application.properties에 설정된 JWT 비밀 키
 
     @Value("${jwt.expirationMs}")
@@ -33,6 +33,12 @@ public class JwtService {
     }
 
     public String getUsernameFromJwt(String token) {
+        boolean validate = validateJwt(token);
+
+        if (!validate) {
+            return "유효하지 않은 토큰입니다";
+        }
+
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(secret.getBytes())
                 .build()
